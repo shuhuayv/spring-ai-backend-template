@@ -1,6 +1,8 @@
 package com.shuhuayv.template.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shuhuayv.template.common.ApiResponse;
+import com.shuhuayv.template.common.PageResult;
 import com.shuhuayv.template.dto.UserCreateRequest;
 import com.shuhuayv.template.dto.UserUpdateRequest;
 import com.shuhuayv.template.entity.SysUser;
@@ -28,6 +30,16 @@ public class UserController {
     @GetMapping
     public ApiResponse<List<SysUser>> listUsers() {
         return ApiResponse.success(sysUserService.listUsers());
+    }
+
+    @Operation(summary = "分页查询用户", description = "分页获取用户信息列表")
+    @GetMapping("/page")
+    public ApiResponse<PageResult<SysUser>> pageUsers(
+            @Parameter(description = "页码", example = "1") @RequestParam(defaultValue = "1") long pageNum,
+            @Parameter(description = "每页条数", example = "10") @RequestParam(defaultValue = "10") long pageSize) {
+        IPage<SysUser> page = sysUserService.pageUsers(pageNum, pageSize);
+        PageResult<SysUser> result = PageResult.of(page.getCurrent(), page.getSize(), page.getTotal(), page.getRecords());
+        return ApiResponse.success(result);
     }
 
     @Operation(summary = "查询单个用户", description = "根据用户 ID 获取用户详细信息")

@@ -1,5 +1,6 @@
 package com.shuhuayv.template.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shuhuayv.template.dto.UserCreateRequest;
 import com.shuhuayv.template.dto.UserUpdateRequest;
@@ -10,6 +11,8 @@ import java.util.List;
 public interface SysUserService extends IService<SysUser> {
 
     List<SysUser> listUsers();
+
+    IPage<SysUser> pageUsers(long pageNum, long pageSize);
 
     SysUser getUserById(Long id);
 
