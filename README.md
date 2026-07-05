@@ -66,3 +66,21 @@ mvn spring-boot:run
 | POST | /api/users | 新增用户 |
 | PUT | /api/users/{id} | 修改用户 |
 | DELETE | /api/users/{id} | 删除用户 |
+
+## Redis 用户详情缓存
+
+项目已对用户详情接口接入 Redis 缓存：
+
+GET /api/users/{id}
+
+缓存 Key 示例：
+
+cache:user:1
+
+缓存说明详见：
+
+docs/redis-cache.md
+
+缓存验证脚本：
+
+./scripts/test_user_cache.sh
