@@ -1,0 +1,88 @@
+name: Backend CI
+
+# Minimal, reproducible CI for the spring-ai-backend-template.
+# Runs the FULL Maven test suite on JDK 21 against disposable
+# MySQL + Redis service containers. No secrets, no external REAL AI,
+# no Qdrant/RAG/Reviewer calls.
+
+on:
+  push:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+          MYSQL_DATABASE: ai_template
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+        volumes:
+          - ${{ github.workspace }}/sql:/docker-entrypoint-initdb.d:ro
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    # Point the app at the disposable CI MySQL/Redis (root, no password).
+    env:
+      DB_USERNAME: root
+      DB_PASSWORD: ""
+      DB_NAME: ai_template
+      REDIS_HOST: localhost
+      REDIS_PORT: "6379"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Wait for MySQL
+        run: |
+          for i in $(seq 1 30); do
+            if docker exec "${{ job.services.mysql.id }}" mysqladmin ping --silent; then
+              echo "MySQL ready"; exit 0
+            fi
+            sleep 2
+          done
+          echo "MySQL not ready"; exit 1
+
+      - name: Wait for Redis
+        run: |
+          for i in $(seq 1 30); do
+            if docker exec "${{ job.services.redis.id }}" redis-cli ping | grep -q PONG; then
+              echo "Redis ready"; exit 0
+            fi
+            sleep 2
+          done
+          echo "Redis not ready"; exit 1
+
+      - name: Make Maven wrapper executable
+        run: chmod +x mvnw
+
+      - name: Run full test suite
+        run: ./mvnw -B clean test
+
+      - name: Package (skip tests)
+        run: ./mvnw -B package -DskipTests
