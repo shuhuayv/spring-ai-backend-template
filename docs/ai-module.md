@@ -48,6 +48,17 @@ com.shuhuayv.template.ai
 │       └── AiChatServiceImpl.java  # Mock 实现
 ```
 
+## 当前已核实边界（Current Verified Boundaries）
+
+为保证简历 / 面试表述准确，明确以下**当前事实**（非未来能力）：
+
+- ✅ 当前 **没有 Spring AI framework 依赖**（`pom.xml` 中无 `spring-ai` 库依赖；仓库名中的 `spring-ai` 仅为项目命名）
+- ✅ 当前 **不调用任何外部大模型 API**（REAL LLM provider 均未接入）
+- ✅ 当前 AI 模块为 **Mock 实现**（`AiChatServiceImpl.buildMockAnswer` 返回写死的模板化回答）
+- ✅ **prompt 正文不写入 INFO 日志**：当前仅记录必要字段（如 `requestId`、`costMs`），早期完整 prompt 落日志的行为已移除
+
+> 「后续可替换为真实大模型」是**扩展点（future option）**，不是当前能力。请勿在简历中写成「基于 Spring AI 的真实大模型服务」或「集成 OpenAI / Zhipu」。
+
 ## 替换为真实大模型
 
 后续可替换 `AiChatServiceImpl` 的实现，接入真实大模型 API，例如：

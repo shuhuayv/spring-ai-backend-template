@@ -28,7 +28,9 @@ cache:user:1
 
 ## 缓存过期时间
 
-30 分钟，即 1800 秒。
+30 分钟，即 1800 秒（`SysUserServiceImpl.USER_CACHE_TTL = Duration.ofMinutes(30)`，源码级定义）。
+
+> 验证级别说明：当前 Redis TTL 为**源码 / 静态核实**（`REDIS_TTL_VERIFICATION_LEVEL=STATIC_SOURCE_VERIFIED`），即 TTL 取值来自源码定义并已阅读确认；本交付门禁并未对最终 main 做完整的「miss → 写入 → hit → TTL 衰减」运行时基准测量。可准确表述为「实现了基于 Redis 的用户详情缓存，TTL 由源码定义为 30 分钟」，请勿表述为「Redis 缓存在最终交付中已完整运行时验证」。
 
 ## 缓存流程
 
