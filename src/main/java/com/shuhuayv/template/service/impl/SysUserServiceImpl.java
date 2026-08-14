@@ -1,5 +1,6 @@
 package com.shuhuayv.template.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.shuhuayv.template.dto.UserCreateRequest;
 import com.shuhuayv.template.dto.UserUpdateRequest;
@@ -35,6 +36,13 @@ public class SysUserServiceImpl extends ServiceImpl<UserMapper, SysUser> impleme
     @Override
     public List<SysUser> listUsers() {
         return list();
+    }
+
+    @Override
+    public IPage<SysUser> pageUsers(long pageNum, long pageSize) {
+        return lambdaQuery()
+                .orderByDesc(SysUser::getId)
+                .page(new com.baomidou.mybatisplus.extension.plugins.pagination.Page<>(pageNum, pageSize));
     }
 
     @Override

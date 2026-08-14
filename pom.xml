@@ -73,6 +73,13 @@
 			<artifactId>mybatis-plus-spring-boot4-starter</artifactId>
 			<version>3.5.16</version>
 		</dependency>
+		<!-- PaginationInnerInterceptor split into a separate module from mybatis-plus 3.5.9+.
+		     Required for MyBatis-Plus physical pagination (Page.total / count query). -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-jsqlparser</artifactId>
+			<version>3.5.16</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springdoc</groupId>
