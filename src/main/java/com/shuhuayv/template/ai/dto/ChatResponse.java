@@ -19,7 +19,7 @@ public class ChatResponse {
     @Schema(description = "用户原始提示词", example = "你好，请介绍一下你自己")
     private String prompt;
 
-    @Schema(description = "AI 模拟回答", example = "你好！我是一个基于 Spring AI 的智能助手。")
+    @Schema(description = "AI 模拟回答", example = "【Mock AI 响应】这是一个模拟回答。")
     private String answer;
 
     @Schema(description = "处理耗时（毫秒）", example = "150")

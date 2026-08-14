@@ -21,7 +21,7 @@ public class AiChatServiceImpl implements AiChatService {
         String requestId = "req-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"))
                 + "-" + UUID.randomUUID().toString().substring(0, 4);
 
-        log.info("AI mock chat, requestId={}, prompt={}", requestId, request.getPrompt());
+        log.info("AI mock chat, requestId={}", requestId);
 
         String answer = buildMockAnswer(request.getPrompt());
 

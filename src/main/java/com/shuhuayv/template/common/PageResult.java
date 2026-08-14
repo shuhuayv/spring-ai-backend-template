@@ -29,7 +29,8 @@ public class PageResult<T> {
     private List<T> records;
 
     public static <T> PageResult<T> of(long pageNum, long pageSize, long total, List<T> records) {
-        long pages = total == 0 ? 0 : (total + pageSize - 1) / pageSize;
+        long safePageSize = pageSize <= 0 ? 1 : pageSize;
+        long pages = total == 0 ? 0 : (total + safePageSize - 1) / safePageSize;
         return new PageResult<>(pageNum, pageSize, total, pages, records);
     }
 }

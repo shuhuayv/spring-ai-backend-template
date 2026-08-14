@@ -55,15 +55,6 @@ docker start qdrant
 docker rm -f qdrant
 ```
 
-## 在 Spring Boot 中使用
+## 当前集成状态
 
-后续 `ai-knowledge-rag` 项目将通过 Spring AI 框架集成 Qdrant，示例依赖：
-
-```xml
-<dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-qdrant-store-spring-boot-starter</artifactId>
-</dependency>
-```
-
-当前模板项目暂不直接依赖 Qdrant SDK，仅作为环境准备。向量存储的集成将在子项目中完成。
+当前模板项目（`spring-ai-backend-template`）暂不直接依赖 Qdrant SDK，仅作为环境准备文档。向量存储的集成将在子项目（如 `ai-knowledge-rag`）中完成，本模板本身不包含相关依赖或代码。

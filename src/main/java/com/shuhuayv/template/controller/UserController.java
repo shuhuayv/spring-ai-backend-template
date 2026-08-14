@@ -37,6 +37,12 @@ public class UserController {
     public ApiResponse<PageResult<SysUser>> pageUsers(
             @Parameter(description = "页码", example = "1") @RequestParam(defaultValue = "1") long pageNum,
             @Parameter(description = "每页条数", example = "10") @RequestParam(defaultValue = "10") long pageSize) {
+        if (pageNum < 1) {
+            throw new IllegalArgumentException("pageNum 必须大于等于 1");
+        }
+        if (pageSize < 1 || pageSize > 100) {
+            throw new IllegalArgumentException("pageSize 必须在 1 到 100 之间");
+        }
         IPage<SysUser> page = sysUserService.pageUsers(pageNum, pageSize);
         PageResult<SysUser> result = PageResult.of(page.getCurrent(), page.getSize(), page.getTotal(), page.getRecords());
         return ApiResponse.success(result);
