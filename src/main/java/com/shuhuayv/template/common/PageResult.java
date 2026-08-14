@@ -29,8 +29,10 @@ public class PageResult<T> {
     private List<T> records;
 
     public static <T> PageResult<T> of(long pageNum, long pageSize, long total, List<T> records) {
-        long safePageSize = pageSize <= 0 ? 1 : pageSize;
-        long pages = total == 0 ? 0 : (total + safePageSize - 1) / safePageSize;
+        if (pageSize <= 0) {
+            throw new IllegalArgumentException("pageSize 必须大于 0");
+        }
+        long pages = total == 0 ? 0 : (total + pageSize - 1) / pageSize;
         return new PageResult<>(pageNum, pageSize, total, pages, records);
     }
 }

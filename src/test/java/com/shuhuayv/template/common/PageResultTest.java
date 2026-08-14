@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PageResultTest {
 
@@ -30,9 +31,8 @@ class PageResultTest {
     }
 
     @Test
-    void of_zeroPageSize_doesNotDivideByZero_andPreservesOriginalPageSize() {
-        PageResult<String> r = PageResult.of(1, 0, 100, Collections.emptyList());
-        assertEquals(100, r.getPages());
-        assertEquals(0, r.getPageSize());
+    void of_zeroPageSize_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class,
+                () -> PageResult.of(1, 0, 100, Collections.emptyList()));
     }
 }
