@@ -4,7 +4,7 @@
 
 Qdrant 是一个高性能的开源向量数据库，用于 AI 应用的向量存储和相似性搜索。
 
-本项目（spring-ai-backend-template）后续将用于 `ai-knowledge-rag` 项目，Qdrant 将作为 RAG（检索增强生成）的向量存储引擎。
+本文件仅记录 Qdrant 的本地环境准备方式。当前 Backend Template **本身不集成 Qdrant**——应用没有 Qdrant SDK、client、vector service 或 collection 代码。向量数据库能力属于**独立项目或未来扩展范围**（例如独立的 RAG 项目），不在本模板的运行时依赖之内。
 
 ## Docker 启动命令
 
@@ -57,4 +57,4 @@ docker rm -f qdrant
 
 ## 当前集成状态
 
-当前模板项目（`spring-ai-backend-template`）暂不直接依赖 Qdrant SDK，仅作为环境准备文档。向量存储的集成将在子项目（如 `ai-knowledge-rag`）中完成，本模板本身不包含相关依赖或代码。
+当前模板项目（`spring-ai-backend-template`）**不集成 Qdrant**：不直接依赖 Qdrant SDK，也不包含任何 client / vector service / collection 代码。Qdrant 向量能力属于**独立项目或未来扩展范围**，本模板仅提供上述环境准备文档。
